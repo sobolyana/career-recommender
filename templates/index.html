@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Career Recommender</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+  <!-- Background grid -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">SmartHire</span>
+    </div>
+    <p class="tagline">Smart job recommendations based on your profile</p>
+  </header>
+
+  <!-- Main layout -->
+  <main class="main">
+
+    <!-- Left panel: Input form -->
+    <section class="panel panel-input">
+      <h2 class="panel-title">Your Profile</h2>
+
+      <form id="profileForm">
+
+        <div class="field">
+          <label for="bio">About you</label>
+          <textarea id="bio" name="bio" rows="4"
+            placeholder="Describe your background, experience, and what you're looking for..."></textarea>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="current_title">Current title</label>
+            <input type="text" id="current_title" name="current_title"
+              placeholder="e.g. Senior Accountant" />
+          </div>
+          <div class="field">
+            <label for="target_role">Target role</label>
+            <input type="text" id="target_role" name="target_role"
+              placeholder="e.g. Data Analyst" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="skills">
+            Your skills
+            <span class="label-hint">comma separated</span>
+          </label>
+          <input type="text" id="skills" name="skills"
+            placeholder="e.g. Python, SQL, Excel, Financial Modeling" />
+        </div>
+
+        <div class="field">
+          <label for="region">
+            Region
+            <span class="label-hint">optional — e.g. CA, NY, Texas</span>
+          </label>
+          <input type="text" id="region" name="region"
+            placeholder="e.g. CA" />
+        </div>
+
+        <div class="field">
+  <label>Work type</label>
+  <div class="checkbox-group">
+    <label class="checkbox-item">
+      <input type="checkbox" name="job_type" value="Onsite" checked />
+      <span class="checkbox-box"></span>
+      <span>Onsite</span>
+    </label>
+    <label class="checkbox-item">
+      <input type="checkbox" name="job_type" value="Hybrid" />
+      <span class="checkbox-box"></span>
+      <span>Hybrid</span>
+    </label>
+    <label class="checkbox-item">
+      <input type="checkbox" name="job_type" value="Remote" />
+      <span class="checkbox-box"></span>
+      <span>Remote</span>
+    </label>
+  </div>
+</div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span class="btn-text">Find</span>
+          <span class="btn-icon">→</span>
+        </button>
+
+      </form>
+    </section>
+
+    <!-- Right panel: Results -->
+    <section class="panel panel-results" id="resultsPanel">
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">◈</div>
+        <p>Fill in your profile and click<br><strong>Find My Job Match</strong></p>
+      </div>
+
+      <!-- Loading state -->
+      <div class="loading-state hidden" id="loadingState">
+        <div class="loader"></div>
+        <p>Analyzing your profile...</p>
+      </div>
+
+      <!-- Error state -->
+      <div class="error-state hidden" id="errorState">
+        <p id="errorMsg"></p>
+      </div>
+
+      <!-- Results -->
+      <div class="results hidden" id="resultsContent">
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab active" data-tab="jobs">
+            <span class="tab-icon">💼</span> Jobs
+            <span class="tab-count" id="jobsCount">0</span>
+          </button>
+          <button class="tab" data-tab="gap">
+            <span class="tab-icon">📊</span> Skill Gap
+            <span class="tab-count" id="gapCount">0</span>
+          </button>
+          <button class="tab" data-tab="courses">
+            <span class="tab-icon">📚</span> Courses
+            <span class="tab-count" id="coursesCount">0</span>
+          </button>
+        </div>
+
+        <div class="field">
+  <label for="top_k">
+    Number of jobs
+    <span class="label-hint">1 — 10</span>
+  </label>
+  <div class="slider-wrap">
+    <input type="range" id="top_k" name="top_k" 
+           min="1" max="10" value="5" 
+           oninput="document.getElementById('top_k_val').textContent = this.value" />
+    <span class="slider-val" id="top_k_val">5</span>
+  </div>
+</div>
+
+        <!-- Tab content -->
+        <div class="tab-content" id="tabJobs">
+          <div id="jobsList"></div>
+        </div>
+
+        <div class="tab-content hidden" id="tabGap">
+          <div id="gapContent"></div>
+        </div>
+
+        <div class="tab-content hidden" id="tabCourses">
+          <div id="coursesList"></div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
